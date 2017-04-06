@@ -3,20 +3,20 @@
 
 class Node {
     public:
-        int getData();
-        void setData(int d);
-        int getColor();
-        void setColor(int c);
-        Node* getLeft();
-        void setLeft(Node* l);
-        Node* getRight();
-        void setRight(Node* r);
+        int getData(); // get the value
+        void setData(int d); // set the data
+        int getColor(); // get the color
+        void setColor(int c); // set the color
+        Node* getLeft(); // get the left node
+        void setLeft(Node* l); // set the left node
+        Node* getRight(); // get the right node
+        void setRight(Node* r); // set the right node
     
     private:
-        int data;
+        int data; // numerical value stored in the node
         int color; // RED or BLACK
-        Node* left;
-        Node* right;
+        Node* left; // left node
+        Node* right; // right node
 }    
 
 #endif
