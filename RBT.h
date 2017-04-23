@@ -30,28 +30,28 @@ struct Node {
     
     // Paints node either red or black
     void setColor(char color) { // 'r' = RED | 'b' = BLACK
-        if (c == 'r') { mBlack = false; }
+        if (color == 'r') { mBlack = false; }
         else { mBlack = true; }
     }
     
     // Sets left node (mLeft)
     void setLeft(Node* node) {
         mLeft = node;
-        if (node != 0) { node->parent = this; }
+        if (node != 0) { node->mParent = this; }
     }
     
     // Sets right node (mRight)
     void setRight(Node* node) {
         mRight = node;
-        if (node != 0) { node->parent = this; }
+        if (node != 0) { node->mParent = this; }
     }
     
     // Checks if node is child in the specified direction
     bool isChild(char direction) {
         if (direction = 'l') {
-            return mParent->left == this;
+            return mParent->mLeft == this;
         } else {
-            return mParent->right == this;
+            return mParent->mRight == this;
         }
     }
     
@@ -65,7 +65,7 @@ struct Node {
     Node* getUncle() {
         Node* grandparent = getGrandparent();
         if (grandparent == 0) { return 0; }
-        if (grandparent->mLeft == parent) { grandparent->mRight; }
+        if (grandparent->mLeft == mParent) { grandparent->mRight; }
         return grandparent->mLeft;
     }
 };
@@ -74,8 +74,12 @@ class RBT {
     public:
         RBT();
         ~RBT();
-        void print(); // Option #1
-        void insert(int data); // Option #3
+        void print();           // Option #1
+        void insert(int data); // Option #2
+        void insert(Node* node);
+        void populate(int* &list, int i, Node* node);
+        int countLevels(Node* root, int level);
+        Node* insertFirst(Node* child, int data);
     
     private:
         Node* root;

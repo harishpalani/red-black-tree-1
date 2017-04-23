@@ -10,12 +10,12 @@ RBT::~RBT() {
     delete root;
 }
 
-void RBT::print() {
+void RBT::print() { // credit: Stack Overflow
     int levels = countLevels(root, 0);
     int nodes[(int)(pow(2, levels)) - 1];
     int* ptr = nodes;
     memset(nodes, 0, sizeof(nodes));
-    populateArray(ptr, 0, root);
+    populate(ptr, 0, root);
     
     int index = 0;
     for (int l = 1; l <= levels; l++) {
@@ -25,7 +25,7 @@ void RBT::print() {
         }
         
         for (int n = 0; n < pow(2, l-1); n++) {
-            // Set color
+            // Set color | red or black
             if (nodes[index] > 0) {
                 cout << nodes[index] << 'B';
             } else if (nodes[index] < 0) {
@@ -106,8 +106,15 @@ void RBT::insert(Node* node) {
 }
 
 // Helper methods
-int RedBlackTree::countLevels(Node* root, int level = 0) {
-    if (currentRoot == 0) { return level; }
+void RBT::populate(int* &list, int i, Node* node) { // credit: Stack Overflow
+    if(node == 0) { return; }
+    list[i] = node->mBlack ? node->mData : -node->mData;
+    populate(list, i*2+1, node->mLeft);
+    populate(list, i*2+2, node->mRight);
+}
+
+int RBT::countLevels(Node* root, int level = 0) { // credit: Stack Overflow
+    if (root == 0) { return level; }
     return max(countLevels(root->mLeft, level + 1), countLevels(root->mRight, level + 1));
 }
 
