@@ -51,9 +51,12 @@ class RBT {
     public:
         RBT();
         ~RBT();
-        
+        void print(); // Option #1
+        void insert(int data); // Option #3
+    
     private:
         Node* root;
+        
 };
 
 #endif
