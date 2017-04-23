@@ -36,7 +36,7 @@ void RBT::print() {
             
             index++;
             
-            for (int i=0; i < pow(2, levels - l + 1) - 1; i++) {
+            for (int i = 0; i < pow(2, levels - l + 1) - 1; i++) {
                 cout << ' ';
             }
         }

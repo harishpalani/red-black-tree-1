@@ -1,5 +1,6 @@
 /**
  * Red-Black Tree | A (roughly) self-balancing binary tree
+ * [NOTE: Algorithm inspired by Wikipedia page on RBTs]
  * @author Harish Palani
  * @version April 2017
  */

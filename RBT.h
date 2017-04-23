@@ -45,6 +45,20 @@ struct Node {
         mRight = node;
         if (node != 0) { node->parent = this; }
     }
+    
+    // Get grandparent node
+    Node* getGrandparent() {
+        if (mParent == 0) { return 0; }
+        return mParent->mParent;
+    }
+    
+    // Get uncle node
+    Node* getUncle() {
+        Node* grandparent = getGrandparent();
+        if (grandparent == 0) { return 0; }
+        if (grandparent->mLeft == parent) { grandparent->mRight; }
+        return grandparent->mLeft;
+    }
 };
 
 class RBT {
