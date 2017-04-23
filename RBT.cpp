@@ -44,8 +44,38 @@ void RBT::print() {
     }
 }
 
+void RBT::insert(int data) {
+    insert(insertFirst(root, data));
+}
+
+void RBT::insert(Node* node) {
+    if (node->mParent == 0) {
+        node->setColor('b');
+        return;
+    } else if (node->mParent->mBlack) {
+        return;
+    } 
+}
+
 // Helper methods
 int RedBlackTree::countLevels(Node* root, int level = 0) {
     if (currentRoot == 0) { return level; }
-    return max(countLevels(root->left, level + 1), countLevels(root->right, level + 1));
+    return max(countLevels(root->mLeft, level + 1), countLevels(root->mRight, level + 1));
+}
+
+Node* RBT::insertFirst(Node* child, int data) {
+    if (child->mLeft == 0 && child->mLeft == 0) {
+        child->mData = data;
+        child->setColor('r');
+        child->setLeft(new Node());
+        child->setRight(new Node());
+        
+        return child;
+    }
+    
+    if (data < child->mData) {
+        return insertFirst(child->mLeft, data);
+    } else {
+        return insertFirst(child->mRight, data);
+    }
 }
