@@ -10,6 +10,7 @@ RBT::~RBT() {
     delete root;
 }
 
+// Visualize RBT
 void RBT::print() { // credit: Stack Overflow
     int levels = countLevels(root, 0);
     int nodes[(int)(pow(2, levels)) - 1];
@@ -44,10 +45,12 @@ void RBT::print() { // credit: Stack Overflow
     }
 }
 
+// Insert number into RBT (wrapper method for ease of use)
 void RBT::insert(int data) {
     insert(insertFirst(root, data));
 }
 
+// Main insertion algorithm
 void RBT::insert(Node* node) {
     if (node->mParent == 0) {
         node->setColor('b');
@@ -70,6 +73,7 @@ void RBT::insert(Node* node) {
     if (node->isChild('r') && node->mParent->isChild('l')) {
         // Slide the current node up to its parent locale
         Node* bygone = node->mParent;
+        *parentPtrGenerator(bygone) = node;
         node->mParent = node->getGrandparent();
         bygone->setRight(node->mLeft);
         node->setLeft(bygone);
@@ -80,6 +84,7 @@ void RBT::insert(Node* node) {
     if (node->isChild('l') && node->mParent->isChild('r')) {
         // Slide the current node up to its parent locale
         Node* bygone = node->mParent;
+        *parentPtrGenerator(bygone) = node;
         node->mParent = node->getGrandparent();
         bygone->setLeft(node->mLeft);
         node->setRight(bygone);
@@ -89,23 +94,25 @@ void RBT::insert(Node* node) {
     node->getGrandparent()->setColor('r');
     node->mParent->setColor('b');
     
-    if (node->isChild('l')) {
+    if (node->isChild('l')) { // If left child, shift parent to the right
         Node* parent = node->mParent;
         Node* bygone = parent->mParent;
+        *parentPtrGenerator(bygone) = parent;
         parent->mParent = parent->getGrandparent();
         bygone->setLeft(parent->mLeft);
         parent->setRight(bygone);
-    } else {
+    } else { // If right child, shift parent to the left
         Node* parent = node->mParent;
         Node* bygone = parent->mParent;
+        *parentPtrGenerator(bygone) = parent;
         parent->mParent = parent->getGrandparent();
         bygone->setRight(parent->mLeft);
         parent->setLeft(bygone);
-        
     }
 }
 
-// Helper methods
+// Helper methods //
+// Visualization
 void RBT::populate(int* &list, int i, Node* node) { // credit: Stack Overflow
     if(node == 0) { return; }
     list[i] = node->mBlack ? node->mData : -node->mData;
@@ -118,6 +125,8 @@ int RBT::countLevels(Node* root, int level = 0) { // credit: Stack Overflow
     return max(countLevels(root->mLeft, level + 1), countLevels(root->mRight, level + 1));
 }
 
+// RBT functions
+// Initiates RBT insertion process
 Node* RBT::insertFirst(Node* child, int data) {
     if (child->mLeft == 0 && child->mLeft == 0) {
         child->mData = data;
@@ -133,4 +142,13 @@ Node* RBT::insertFirst(Node* child, int data) {
     } else {
         return insertFirst(child->mRight, data);
     }
+}
+
+// Generates a parent pointer
+Node** RBT::parentPtrGenerator(Node* child) {
+    Node** ptr;
+    if(child->mParent == 0) { ptr = &root; }
+    else if (child == child->mParent->mLeft) { ptr = &(child->mParent->mLeft); }
+    else { ptr = &(child->mParent->mRight); }
+    return ptr;
 }

@@ -1,6 +1,6 @@
 /**
  * Red-Black Tree | A (roughly) self-balancing binary tree
- * [NOTE: Algorithm inspired by Wikipedia page on RBTs]
+ * [NOTE: Algorithm inspired by Wikipedia page on RBTs, RBT visualization inspired by a Stack Overflow response]
  * @author Harish Palani
  * @version April 2017
  */
@@ -12,7 +12,6 @@
 using namespace std;
 
 int main() {
-    
     cout << "Red-Black Tree | Insertion" << "\n" << "Created by Harish Palani, April 2017" << "\n" << endl;
     RBT rbt;
     

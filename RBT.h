@@ -19,14 +19,25 @@ struct Node {
         mBlack = black;
     }
     
-    // Default node constructor
+    // Default node constructor, also w/ initialization list
     Node() : mLeft(0), mRight(0), mParent(0) {
         mData = 0;
         mBlack = true;
     }
     
-    // Checks if node is painted red
-    bool isRed() { return !mBlack; }
+    // Gets grandparent node
+    Node* getGrandparent() {
+        if (mParent == 0) { return 0; }
+        return mParent->mParent;
+    }
+    
+    // Gets uncle node
+    Node* getUncle() {
+        Node* grandparent = getGrandparent();
+        if (grandparent == 0) { return 0; }
+        if (grandparent->mLeft == mParent) { grandparent->mRight; }
+        return grandparent->mLeft;
+    }
     
     // Paints node either red or black
     void setColor(char color) { // 'r' = RED | 'b' = BLACK
@@ -46,6 +57,9 @@ struct Node {
         if (node != 0) { node->mParent = this; }
     }
     
+    // Checks if node is painted red
+    bool isRed() { return !mBlack; }
+    
     // Checks if node is child in the specified direction
     bool isChild(char direction) {
         if (direction = 'l') {
@@ -53,20 +67,6 @@ struct Node {
         } else {
             return mParent->mRight == this;
         }
-    }
-    
-    // Gets grandparent node
-    Node* getGrandparent() {
-        if (mParent == 0) { return 0; }
-        return mParent->mParent;
-    }
-    
-    // Gets uncle node
-    Node* getUncle() {
-        Node* grandparent = getGrandparent();
-        if (grandparent == 0) { return 0; }
-        if (grandparent->mLeft == mParent) { grandparent->mRight; }
-        return grandparent->mLeft;
     }
 };
 
@@ -76,14 +76,14 @@ class RBT {
         ~RBT();
         void print();           // Option #1
         void insert(int data); // Option #2
-        void insert(Node* node);
-        void populate(int* &list, int i, Node* node);
-        int countLevels(Node* root, int level);
-        Node* insertFirst(Node* child, int data);
     
     private:
         Node* root;
-        
+        Node* insertFirst(Node* child, int data);
+        void insert(Node* node);
+        void populate(int* &list, int i, Node* node);
+        int countLevels(Node* root, int level);
+        Node** parentPtrGenerator(Node* child);
 };
 
 #endif
