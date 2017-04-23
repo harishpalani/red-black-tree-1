@@ -76,7 +76,33 @@ void RBT::insert(Node* node) {
         node = node->mLeft;
     }
     
+    // Parent is red, Uncle is black | Current node is left child, Parent is right child
+    if (node->isChild('l') && node->mParent->isChild('r')) {
+        // Slide the current node up to its parent locale
+        Node* bygone = node->mParent;
+        node->mParent = node->getGrandparent();
+        bygone->setLeft(node->mLeft);
+        node->setRight(bygone);
+        node = node->mRight;
+    }
     
+    node->getGrandparent()->setColor('r');
+    node->mParent->setColor('b');
+    
+    if (node->isChild('l')) {
+        Node* parent = node->mParent;
+        Node* bygone = parent->mParent;
+        parent->mParent = parent->getGrandparent();
+        bygone->setLeft(parent->mLeft);
+        parent->setRight(bygone);
+    } else {
+        Node* parent = node->mParent;
+        Node* bygone = parent->mParent;
+        parent->mParent = parent->getGrandparent();
+        bygone->setRight(parent->mLeft);
+        parent->setLeft(bygone);
+        
+    }
 }
 
 // Helper methods
