@@ -46,13 +46,22 @@ struct Node {
         if (node != 0) { node->parent = this; }
     }
     
-    // Get grandparent node
+    // Checks if node is child in the specified direction
+    bool isChild(char direction) {
+        if (direction = 'l') {
+            return mParent->left == this;
+        } else {
+            return mParent->right == this;
+        }
+    }
+    
+    // Gets grandparent node
     Node* getGrandparent() {
         if (mParent == 0) { return 0; }
         return mParent->mParent;
     }
     
-    // Get uncle node
+    // Gets uncle node
     Node* getUncle() {
         Node* grandparent = getGrandparent();
         if (grandparent == 0) { return 0; }

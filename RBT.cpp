@@ -52,9 +52,31 @@ void RBT::insert(Node* node) {
     if (node->mParent == 0) {
         node->setColor('b');
         return;
-    } else if (node->mParent->mBlack) {
+    } else if (node->mParent->mBlack) { // Parent is black
         return;
-    } 
+    } else if (node->getUncle()->isRed()) { // Parent is red, Uncle is red
+        // SET || Parent: black / Uncle: black / Grandparent: red
+        node->mParent->setColor('b');
+        node->getUncle()->setColor('b');
+        node->getGrandparent()->setColor('r');
+        
+        // Recursive iteration upwards, w/ grandparent
+        insert(node->getGrandparent());
+        
+        return;
+    }
+    
+    // Parent is red, Uncle is black | Current node is right child, Parent is left child
+    if (node->isChild('r') && node->mParent->isChild('l')) {
+        // Slide the current node up to its parent locale
+        Node* bygone = node->mParent;
+        node->mParent = node->getGrandparent();
+        bygone->setRight(node->mLeft);
+        node->setLeft(bygone);
+        node = node->mLeft;
+    }
+    
+    
 }
 
 // Helper methods
